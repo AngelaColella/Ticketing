@@ -41,6 +41,10 @@ namespace Ticketing.Client.Context
                 .Property(t => t.Category)
                 .IsRequired();
 
+            tickedModel
+                .Property(t => t.Requestor)
+                .HasMaxLength(50)
+                .IsRequired();
         }
     }
 }
