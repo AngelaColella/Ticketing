@@ -12,8 +12,9 @@ namespace Ticketing.Client.Context
 {
     public sealed class TicketContext : DbContext
     {
-        DbSet<Ticket> Tickets { get; set; }
-        DbSet<Note> Notes { get; set; }
+        public DbSet<Ticket> Tickets { get; set; }
+        // N.B. anche se la classe è public, ciò che c'è dentro è private se non si specifica altirmenti 
+        public DbSet<Note> Notes { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionBuilder)
         {
