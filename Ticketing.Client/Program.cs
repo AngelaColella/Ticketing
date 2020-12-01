@@ -38,10 +38,10 @@ namespace Ticketing.Client
                         // If result true => Completed , else => Failed
                         break;
                     case "l": // LIST
-                        System.Console.WriteLine("-- TICKET LIST --");
+                        Console.WriteLine("-- TICKET LIST --");
                         foreach (var t in dataService.List())
                         {
-                            System.Console.WriteLine($"{t.Id} - {t.Title}");
+                            Console.WriteLine($"{t.Id} - {t.Title}");
                         }
                         break;
                     case "e": // EDIT
