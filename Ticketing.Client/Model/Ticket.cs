@@ -19,6 +19,6 @@ namespace Ticketing.Client.Model
         public string Category { get; set; }
         public string Priority { get; set; }
         public string State { get; set; }
-        public string Requestor { get; set; } // aggiungiamo questa proprietà dopo aver fatto la prima migrazione. A questo punto bisognerà fare un'altra migration "Add-Migration TicketRequestorAdded"
+        public string Requestor { get; set; }
     }
 }
