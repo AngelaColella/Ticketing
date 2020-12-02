@@ -25,6 +25,10 @@ namespace Ticketing.Client.Model.Configuration
             //    .HasOne(n => n.Ticket)
             //    .WithMany(t => t.Notes);
 
+            // CONCURRENCY MANAGEMENT
+            builder
+                .Property(n => n.RowVersion)
+                .IsRowVersion();
         }
     }
 }

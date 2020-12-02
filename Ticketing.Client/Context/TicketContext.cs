@@ -21,7 +21,8 @@ namespace Ticketing.Client.Context
             string connString = Config.GetConnectionString("TicketDb");
             // non serve un'istanza della classe Config perchè stiamo usando metodi statici. 
 
-            optionBuilder.UseSqlServer(connString);
+            optionBuilder.UseLazyLoadingProxies(); // Lazy Loading
+            optionBuilder.UseSqlServer(connString);       
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuider)

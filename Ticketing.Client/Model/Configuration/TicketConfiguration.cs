@@ -40,7 +40,14 @@ namespace Ticketing.Client.Model.Configuration
                 .HasForeignKey(n => n.TicketId)
                 .HasConstraintName("FK_Ticket_Note") // altrimenti mette un nome a caso 
                 .OnDelete(DeleteBehavior.Cascade);
-                // se cancello un ticket, viene cancellata la nota
+            // se cancello un ticket, viene cancellata la nota
+           
+            
+            // CONCURRENCY MANAGEMENT
+            builder
+                .Property(n => n.RowVersion)
+                .IsRowVersion();
+
         }
     }
 }
