@@ -5,7 +5,11 @@ VisualStudioVersion = 16.0.30717.126
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ticketing.Client", "Ticketing.Client\Ticketing.Client.csproj", "{7B91F23B-790B-486B-BEBA-EB1213474DB4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ticketing.Helpers", "Ticketing.Helpers\Ticketing.Helpers.csproj", "{12DCFC8E-336B-4989-80EB-47A4AB58CFB4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ticketing.Helpers", "Ticketing.Helpers\Ticketing.Helpers.csproj", "{12DCFC8E-336B-4989-80EB-47A4AB58CFB4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ticketing.Core", "Ticketing.Core\Ticketing.Core.csproj", "{8C14BFDF-5475-4A1D-B17F-B1C0D552B79B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ticketing.CoreEF", "Ticketing.CoreEF\Ticketing.CoreEF.csproj", "{68056AF9-C6A2-4911-A7DE-3F271E3DBB32}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +25,14 @@ Global
 		{12DCFC8E-336B-4989-80EB-47A4AB58CFB4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{12DCFC8E-336B-4989-80EB-47A4AB58CFB4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{12DCFC8E-336B-4989-80EB-47A4AB58CFB4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8C14BFDF-5475-4A1D-B17F-B1C0D552B79B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8C14BFDF-5475-4A1D-B17F-B1C0D552B79B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8C14BFDF-5475-4A1D-B17F-B1C0D552B79B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8C14BFDF-5475-4A1D-B17F-B1C0D552B79B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{68056AF9-C6A2-4911-A7DE-3F271E3DBB32}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{68056AF9-C6A2-4911-A7DE-3F271E3DBB32}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{68056AF9-C6A2-4911-A7DE-3F271E3DBB32}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{68056AF9-C6A2-4911-A7DE-3F271E3DBB32}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
