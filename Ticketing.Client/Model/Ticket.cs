@@ -7,15 +7,14 @@ namespace Ticketing.Client.Model
 {
     public class Ticket
     {
-        //Non c'è bisogno di creare questo costruttore, anzi darebbe problemi
-        //è un aggiornamento di EF 
+        //Non c'è bisogno di creare questo costruttore, anzi darebbe problemi a causa di un aggiornamento di EF 
 
         //public Ticket()
         //{
         //    Notes = new List<Note>();
         //}
-        //[Key]
 
+        //[Key]
         public int Id { get; set; } // per rispettare la convenzione della chiave primaria avrei potuto scrivere anche TicketId, ID, TicketID
 
         public DateTime IssueDate { get; set; }
@@ -32,8 +31,10 @@ namespace Ticketing.Client.Model
         // CONCURRENCY MANAGEMENT
         public Byte[] RowVersion { get; set; }
 
-        // Navigation property perchè abbiamo aggiunto la classe notes
-        // monodirezionale se la metto solo in ticket, bidirezionale se ne metto una anche in Note
+        // Navigation property perchè abbiamo aggiunto la classe Notes
+        // monodirezionale se la metto solo in Ticket, bidirezionale se ne metto una anche in Note
+        // N.B. Deve essere sempre virtual 
+        // Lista di note perchè stiamo implementando una relazione uno a molti: un Ticket può avere molte note
         public virtual List<Note> Notes { get; set; }
     }
 }

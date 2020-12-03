@@ -14,15 +14,16 @@ namespace Ticketing.Client
 
             do
             {
-                string command = Console.ReadLine();
-
                 Console.WriteLine("Insert a command: \n");
+                string command = Console.ReadLine();
+             
                 switch (command)
                 {
                     case "q":
                         quit = true;
                         break;
-                    case "a": // ADD
+
+                    case "a": // ADD TICKET
                         Ticket ticket = new Ticket();
                         ticket.Title = GetData("Title");
                         ticket.Description = GetData("Description");
@@ -37,7 +38,8 @@ namespace Ticketing.Client
                         // è un ternario: corrisponde ad un if else. 
                         // If result true => Completed , else => Failed
                         break;
-                    case "n": // NOTE
+
+                    case "n": // ADD NOTE
                         var ticketId = GetData("Ticket ID");
                         int.TryParse(ticketId, out int tId);
                         var comments = GetData("Comment");
@@ -49,25 +51,44 @@ namespace Ticketing.Client
                         var noteResult = dataService.AddNote(newNote);
                         Console.WriteLine("Operation" + (noteResult ? "Completed" : "Failed"));
                         break;
-                    case "l": // LIST
-                        Console.WriteLine("-- TICKET LIST --");
-                        foreach (var t in dataService.List())
+
+                    case "l": // LIST EAGER
+                        Console.WriteLine("-- TICKET LIST (EAGER) --");
+                        foreach (var t in dataService.ListEager())
                         {
-                            Console.WriteLine($"{t.Id} - {t.Title}");
-                            
+                            Console.WriteLine($"[{t.Id}] {t.Title}");
                             foreach (var n in t.Notes)
-                            {
-                                Console.WriteLine($"{n.Comments}");
-                            }
-                            // il comportamento di default di Entity Framework è non popolare le navigation property, a meno che non sia esplicitato. Ciò è al fine di limitare il traffico di dati
-                            // quindi con questo foreach non vengono letti i commenti
+                                Console.WriteLine($"\t{n.Comments}");
                         }
+                        Console.WriteLine("-----------------");
+
+                        #region METODO LIST ()
+                        //Console.WriteLine("-- TICKET LIST --");
+                        //foreach (var t in dataService.List())
+                        //{
+                        //    Console.WriteLine($"{t.Id} - {t.Title}");
+
+                        //    foreach (var n in t.Notes)
+                        //    {
+                        //        Console.WriteLine($"{n.Comments}");
+                        //    }
+                        //    // il comportamento di default di Entity Framework è non popolare le navigation property, a meno che non sia esplicitato. Ciò è al fine di limitare il traffico di dati
+                        //    // quindi con questo foreach non vengono letti i commenti
+                        //} 
+                        #endregion
+                        
                         break;
+                    case "z":
+                        dataService.ListLazy();
+                        break;
+
                     case "x":
-                        //var ticketId2 = GetData("");
-                        //var ticket2 = dataService.GetTicketByIDviaSTP();
-                        //int.TryParse(ticketId2, out int tId2);
+                        var ticketId2 = GetData("Ticket ID");
+                        int.TryParse(ticketId2, out int tId2);
+                        var ticket2 = dataService.GetTicketByIDViaSTP(tId2);
+                        Console.WriteLine(ticket2 != null ? ticket2.Description : "niente ...");
                         break;
+
                     case "e": // EDIT
                         var ticketId3 = GetData("Ticket ID");
                         int.TryParse(ticketId3, out int tId3);
@@ -94,21 +115,22 @@ namespace Ticketing.Client
 
             // nel do while il test è alla fine, quindi il codice che c'è dentro viene letto almeno una volta
 
-            Console.WriteLine("\n Bye bye");
+            Console.WriteLine("\n Bye bye!!");
         }
 
         private static string GetData(string message)
         {
-            Console.Write(message + ": ");
+            Console.Write(message + ": "); // Write fa scrivere direttamente dopo il : invece che scriverlo a capo
             var value = Console.ReadLine();
             return value;      
         }
 
-        private static string GetData(string message, string initialValue)
+        private static string GetData(string message, string initialValue) // nel caso in cui si voglia anche fare un confronto del dato inserito con il valore del dato corrente 
         {
-            Console.Write(message + $"({initialValue}): "); // Write fa scrivere direttamente dopo il : invece che scriverlo a capo
+            Console.Write(message + $"({initialValue}): "); 
             var value = Console.ReadLine();
             return string.IsNullOrEmpty(value) ? initialValue : value;
+            // se la stringa value scritta da linea di comando è vuota o null, utilizza il valore che era già assegnato al campo (initialValue), altrimenti usa value. 
         }
     }
 }

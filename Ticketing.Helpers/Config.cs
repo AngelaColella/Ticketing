@@ -4,7 +4,7 @@ using System.IO;
 
 namespace Ticketing.Helpers
 {
-    // questa classe per come è fatta ora poteva anche essere dichiarata statica, perchè ha solo metodi statici
+    // questa classe per come è fatta poteva anche essere dichiarata statica, perchè ha solo metodi statici
     // se non metto static è perchè voglio lasciare la libertà di inserire delle proprietà di istanza
     public class Config
     {
@@ -18,7 +18,7 @@ namespace Ticketing.Helpers
            return config.GetConnectionString("TicketDb"); 
         }
 
-        public static IConfigurationSection GetSection(string sectionName)
+        public static IConfigurationSection GetSection(string sectionName) // se dovesse servirmi una sezione del file Json
         {
             return config.GetSection(sectionName);
         }

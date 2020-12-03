@@ -10,25 +10,52 @@ namespace Ticketing.Client
 {
     public class DataService
     {
-        public List<Ticket> List()
+        public void ListLazy()
         {
             using var ctx = new TicketContext();
 
-            return ctx.Tickets
-                //.Include(t => t.Notes) // Eager Loading
-                .ToList();           
+            Console.WriteLine("-- TICKET LIST (LAZY) --");
+           
+            foreach (var t in ctx.Tickets)
+            {
+                Console.WriteLine($"[{t.Id}] {t.Title}");
+                foreach (var n in t.Notes)
+                    Console.WriteLine($"\t{n.Comments}");
+            }
+            Console.WriteLine("-----------------");
         }
+
+        public List<Ticket> ListEager()
+        {
+            using var ctx = new TicketContext();
+
+            // Console.WriteLine("-- TICKET LIST (EAGER) --");
+            return ctx.Tickets
+                .Include(t => t.Notes)
+                .ToList();
+        }
+
+        #region LIST
+        // Con questo metodo, le note vengono vuote perchè non vengono popolate le navigation properties
+        //public List<Ticket> List() 
+        //{
+        //    using var ctx = new TicketContext();
+
+        //    return ctx.Tickets
+        //        .ToList();           
+        //}
+        #endregion
 
         public bool Add(Ticket ticket)
         {
             try
             {
                 using var ctx = new TicketContext();
-                // per ogni riga che legge dal database, viene creata un'istanza di Ticket
+                // per ogni riga che legge dal database, viene creata un'istanza di TicketContext
 
                 if (ticket != null)
                 {
-                    ctx.Tickets.Add(ticket);
+                    ctx.Tickets.Add(ticket); // aggiunge il ticket ad DbSet
                     ctx.SaveChanges();
                 }
 
@@ -41,8 +68,7 @@ namespace Ticketing.Client
                 Console.WriteLine("Error: " + ex.Message);
                 return false;
             }
-            
-           
+
         }
 
         public bool AddNote(Note newNote)
@@ -54,19 +80,19 @@ namespace Ticketing.Client
                 if (newNote != null) 
                 {
                     var ticket = ctx.Tickets.Find(newNote.TicketId); // si recupera il ticket di riferimento tramite la foreign key
-                   
+                    // Se cercassi di aggiungere una nota senza questo passaggio, il programma cercherebbe di creare un nuovo ticket da associare alla nuova nota
+                    // è come se avesse fatto Ticket = new Ticket()
+                    // Un'altra strada sarebbe stata valorizzare la navigation property
+                            //newNote.Ticket = ticket;
+                            //ctx.Notes.Add(newNote);
+                            //ctx.SaveChanges();
+
                     if (ticket != null) 
                     {
                         ticket.Notes.Add(newNote);
                         ctx.SaveChanges();
                     }
-                    // Se cercassi di aggiungere una nota senza questo passaggio, il programma cercherebbe di creare un nuovo ticket da associare alla nuova nota
-                    // è come se avesse fatto Ticket = new Ticket()
-                    // Un'altra strada sarebbe stata valorizzare la navigation property
-                    
-                    //newNote.Ticket = ticket;
-                    //ctx.Notes.Add(newNote);
-                    //ctx.SaveChanges();
+ 
                 }
 
                 else
@@ -94,8 +120,10 @@ namespace Ticketing.Client
         public Ticket GetTicketByID(int id)
         {
             using var ctx = new TicketContext();
+            
             if (id > 0)
                 return ctx.Tickets.Find(id);
+
             return null;
         }
 
@@ -103,8 +131,8 @@ namespace Ticketing.Client
         {
             // Qui bisogna usare una modalità disconnessa 
             using var ctx = new TicketContext();
-
             bool saved = false;
+
             do
             {
                 try
