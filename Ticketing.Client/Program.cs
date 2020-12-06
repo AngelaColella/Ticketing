@@ -14,7 +14,8 @@ namespace Ticketing.Client
 
             do
             {
-                Console.WriteLine("Insert a command: \n");
+                Console.WriteLine("-------------------\n");
+                Console.WriteLine("Insert a command:");
                 string command = Console.ReadLine();
              
                 switch (command)
@@ -53,14 +54,12 @@ namespace Ticketing.Client
                         break;
 
                     case "l": // LIST EAGER
-                        Console.WriteLine("-- TICKET LIST (EAGER) --");
                         foreach (var t in dataService.ListEager())
                         {
-                            Console.WriteLine($"[{t.Id}] {t.Title}");
+                            Console.WriteLine($"[{t.Id}] {t.Title} {t.Description}{t.Category}{t.Priority} {t.Requestor}");
                             foreach (var n in t.Notes)
                                 Console.WriteLine($"\t{n.Comments}");
                         }
-                        Console.WriteLine("-----------------");
 
                         #region METODO LIST ()
                         //Console.WriteLine("-- TICKET LIST --");
@@ -73,13 +72,13 @@ namespace Ticketing.Client
                         //        Console.WriteLine($"{n.Comments}");
                         //    }
                         //    // il comportamento di default di Entity Framework è non popolare le navigation property, a meno che non sia esplicitato. Ciò è al fine di limitare il traffico di dati
-                        //    // quindi con questo foreach non vengono letti i commenti
+                        //    // quindi con questo foreach non vengono lette le note
                         //} 
                         #endregion
                         
                         break;
                     case "z":
-                        dataService.ListLazy();
+                        dataService.ListLazy(); // La stampa non si può fare da program perchè il context deve essere aperto
                         break;
 
                     case "x":

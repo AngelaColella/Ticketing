@@ -19,7 +19,7 @@ namespace Ticketing.Client.Context
         protected override void OnConfiguring(DbContextOptionsBuilder optionBuilder)
         {
             string connString = Config.GetConnectionString("TicketDb");
-            // non serve un'istanza della classe Config (creata da noi nel prgetto Ticketing.Helpers) perchè stiamo usando metodi statici. 
+            // non serve un'istanza della classe Config (creata da noi nel prgetto Ticketing.Helpers) perchè stiamo usando metodi statici
 
             optionBuilder.UseLazyLoadingProxies(); // Lazy Loading (N.B: va installato un pacchetto per poter fare questo)
             optionBuilder.UseSqlServer(connString);       

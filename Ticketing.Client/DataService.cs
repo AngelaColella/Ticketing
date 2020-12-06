@@ -14,24 +14,21 @@ namespace Ticketing.Client
         {
             using var ctx = new TicketContext();
 
-            Console.WriteLine("-- TICKET LIST (LAZY) --");
-           
-            foreach (var t in ctx.Tickets)
+            foreach (var t in ctx.Tickets) // Tickets è il DbSet
             {
                 Console.WriteLine($"[{t.Id}] {t.Title}");
                 foreach (var n in t.Notes)
                     Console.WriteLine($"\t{n.Comments}");
             }
-            Console.WriteLine("-----------------");
+           
         }
 
         public List<Ticket> ListEager()
         {
             using var ctx = new TicketContext();
 
-            // Console.WriteLine("-- TICKET LIST (EAGER) --");
             return ctx.Tickets
-                .Include(t => t.Notes)
+                .Include(t => t.Notes) // Popola la navigation property Notes di Ticket
                 .ToList();
         }
 
@@ -107,7 +104,7 @@ namespace Ticketing.Client
           
         }
 
-        public Ticket GetTicketByIDviaSTP(int id)
+        public Ticket GetTicketByIDViaSTP(int id)
         {
             using var ctx = new TicketContext();
             SqlParameter idParam = new SqlParameter("@id", id);
