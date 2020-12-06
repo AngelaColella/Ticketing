@@ -11,7 +11,6 @@ namespace Ticketing.Client.Model.Configuration
       
         public void Configure(EntityTypeBuilder<Ticket> builder)
         {
-            //var builder = modelBuider.Entity<Ticket>(); // per evitare di doverlo scrivere ogni volta
 
             builder
                 .HasKey(t => t.Id); // non è necessario per il discroso della convenzione, ma se lo si vuole esplicitare, si scrive così
@@ -23,24 +22,23 @@ namespace Ticketing.Client.Model.Configuration
 
             builder
                 .Property(t => t.Description)
-                    .HasMaxLength(500);
+                .HasMaxLength(500);
 
             builder
                 .Property(t => t.Category)
-                    .IsRequired();
+                .IsRequired();
 
             builder
                 .Property(t => t.Requestor)
-                    .HasMaxLength(50)
-                    .IsRequired();
+                .HasMaxLength(50)
+                .IsRequired();
 
             builder
                 .HasMany(t => t.Notes)
                 .WithOne(n => n.Ticket) // ciascuna di queste note è legata ad un ticket
                 .HasForeignKey(n => n.TicketId)
                 .HasConstraintName("FK_Ticket_Note") // altrimenti mette un nome a caso 
-                .OnDelete(DeleteBehavior.Cascade);
-            // se cancello un ticket, viene cancellata la nota
+                .OnDelete(DeleteBehavior.Cascade); // se cancello un ticket, viene cancellata la nota
            
             
             // CONCURRENCY MANAGEMENT

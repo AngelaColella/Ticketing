@@ -13,9 +13,10 @@ namespace Ticketing.Client.Model
         public int Id { get; set; }
         public string Comments { get; set; }
 
-        // Aggiungo una Foreign Key
+        // Foreign Key
         public int TicketId { get; set; }
 
+        // CONCURRENCY MANAGEMENT
         public Byte[] RowVersion { get; set; }
 
         // Navigation property 

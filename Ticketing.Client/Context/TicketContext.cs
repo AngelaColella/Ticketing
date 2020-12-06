@@ -20,9 +20,11 @@ namespace Ticketing.Client.Context
         {
             string connString = Config.GetConnectionString("TicketDb");
             // non serve un'istanza della classe Config perchè stiamo usando metodi statici. 
+            // OPPURE se nel file json ci fosse più di una section
+            // string connString = Config.GetSection("ConnectionStrings")["TicketDb"];
 
-            optionBuilder.UseLazyLoadingProxies(); // Lazy Loading
-            optionBuilder.UseSqlServer(connString);       
+            //optionBuilder.UseLazyLoadingProxies(); // Lazy Loading
+            //optionBuilder.UseSqlServer(connString);       
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuider)

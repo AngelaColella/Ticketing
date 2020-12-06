@@ -14,9 +14,11 @@ namespace Ticketing.Client.Model
         //{
         //    Notes = new List<Note>();
         //}
-        //[Key]
 
-        public int Id { get; set; } // per rispettare la convenzione della chiave primaria avrei potuto scrivere anche TicketId, ID, TicketID
+
+        //[Key]
+        public int Id { get; set; } 
+        // per rispettare la convenzione della chiave primaria avrei potuto scrivere anche TicketId, ID, TicketID
 
         public DateTime IssueDate { get; set; }
         //[Required]
@@ -32,8 +34,8 @@ namespace Ticketing.Client.Model
         // CONCURRENCY MANAGEMENT
         public Byte[] RowVersion { get; set; }
 
-        // Navigation property perchè abbiamo aggiunto la classe notes
-        // monodirezionale se la metto solo in ticket, bidirezionale se ne metto una anche in Note
+        // Navigation property
+        // monodirezionale se la metto solo in Ticket, bidirezionale se ne metto una anche in Note
         public virtual List<Note> Notes { get; set; }
     }
 }

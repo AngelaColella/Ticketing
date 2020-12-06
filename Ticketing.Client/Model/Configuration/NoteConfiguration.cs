@@ -18,8 +18,8 @@ namespace Ticketing.Client.Model.Configuration
                 .HasMaxLength(1000)
                 .IsRequired();
 
-            // se avessi voluto impostare qui la relazione tra Note e Ticket
-            // in realtà è meglio impostarla in TicketConfiguration
+            // se avessi voluto impostare qui la relazione tra Note e Ticket avrei scritto come segue
+            // (in realtà è meglio impostarla in TicketConfiguration)
 
             //builder
             //    .HasOne(n => n.Ticket)

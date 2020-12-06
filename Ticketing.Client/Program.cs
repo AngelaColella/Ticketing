@@ -14,15 +14,15 @@ namespace Ticketing.Client
 
             do
             {
+                Console.WriteLine("Insert a command: \n");
                 string command = Console.ReadLine();
 
-                Console.WriteLine("Insert a command: \n");
                 switch (command)
                 {
                     case "q":
                         quit = true;
                         break;
-                    case "a": // ADD
+                    case "a": // ADD TICKET
                         Ticket ticket = new Ticket();
                         ticket.Title = GetData("Title");
                         ticket.Description = GetData("Description");
@@ -37,7 +37,7 @@ namespace Ticketing.Client
                         // è un ternario: corrisponde ad un if else. 
                         // If result true => Completed , else => Failed
                         break;
-                    case "n": // NOTE
+                    case "n": // ADD A NOTE TO A TICKET WITH A SPECIFIED ID
                         var ticketId = GetData("Ticket ID");
                         int.TryParse(ticketId, out int tId);
                         var comments = GetData("Comment");

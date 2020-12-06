@@ -41,8 +41,7 @@ namespace Ticketing.Client
                 Console.WriteLine("Error: " + ex.Message);
                 return false;
             }
-            
-           
+                 
         }
 
         public bool AddNote(Note newNote)
@@ -100,8 +99,7 @@ namespace Ticketing.Client
         }
 
         public bool Edit(Ticket ticket)
-        {
-            // Qui bisogna usare una modalità disconnessa 
+        {        
             using var ctx = new TicketContext();
 
             bool saved = false;
@@ -110,14 +108,14 @@ namespace Ticketing.Client
                 try
                 {
                     if (ticket == null)
-                        return false;
+                        return false; // se il ticket è nullo, non ha senso fare modifiche quindi si esce direttamente dalla funzione
 
                     // Se volessi fermare il programma per andare a simulare la concurrency modificando i dati da sql
                     // le due righe seguenti servono per far fermare l'applicazione e lasciare il tempo di modificare i dati
                     //Console.WriteLine("Wait");
                     //Console.ReadLine();
 
-                    ctx.Entry<Ticket>(ticket).State = EntityState.Modified;
+                    ctx.Entry<Ticket>(ticket).State = EntityState.Modified;  // Qui bisogna usare una modalità disconnessa
                     ctx.SaveChanges();
 
                     saved = true;
