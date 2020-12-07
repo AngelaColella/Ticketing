@@ -10,6 +10,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Ticketing.Core;
+using Ticketing.Core.Mock;
+using Ticketing.Core.Repository;
 
 namespace Ticketing.ASP
 {
@@ -25,7 +28,8 @@ namespace Ticketing.ASP
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            // configurazione della DI (Injector). Nella classe di defaul ci sarebbe stata solo la riga //services.AddControllers()
+            // configurazione della DI (Injector). Nella classe di default ci sarebbe stata solo la riga //services.AddControllers()
+            
             services.AddControllers()
                 .AddNewtonsoftJson(options => {
                     options.SerializerSettings.ReferenceLoopHandling =

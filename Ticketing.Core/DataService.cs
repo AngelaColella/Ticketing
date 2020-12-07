@@ -13,8 +13,8 @@ namespace Ticketing.Core
         private readonly ITicketRepository ticketRepo;
         private readonly INoteRepository noteRepo;
 
-        public DataService(ITicketRepository ticketRepo, INoteRepository noteRepo) 
-            //i parametri di 
+        public DataService(ITicketRepository ticketRepo, INoteRepository noteRepo)
+        // In ingresso sono accettate tutte le classi che implementano le due interfacce (constructor dependency injection)
         {
             this.ticketRepo = ticketRepo;
             this.noteRepo = noteRepo;

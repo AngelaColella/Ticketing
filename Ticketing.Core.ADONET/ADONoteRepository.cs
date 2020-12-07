@@ -20,7 +20,7 @@ namespace Ticketing.Core.ADONET
 
         public IEnumerable<Note> Get(Func<Note, bool> filter = null)
         {
-            return new List<Note>;          
+            return new List<Note>();          
         }
 
         public Note GetByID(int id)

@@ -1,6 +1,7 @@
 ﻿using System;
 using Ticketing.Core;
 using Ticketing.Core.Model;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Ticketing.Client
 {
@@ -8,8 +9,10 @@ namespace Ticketing.Client
     {
         static void Main(string[] args)
         {
-            DataService dataService = new DataService();
+            //DataService dataService = new DataService(); // Prima della DI
 
+            var serviceProvider = DIConfig.ConfigDI();
+            DataService dataService = serviceProvider.GetService<DataService>();
             Console.WriteLine(" TICKET MANAGEMENT ");
             bool quit = false;
 
@@ -72,7 +75,7 @@ namespace Ticketing.Client
                     case "e": // EDIT
                         var ticketId3 = GetData("Ticket ID");
                         int.TryParse(ticketId3, out int tId3);
-                        var ticket3 = dataService.GetTicketByID(tId3);
+                        var ticket3 = dataService.GetTicketById(tId3);
 
                         ticket3.Title = GetData("Title", ticket3.Title);
                         ticket3.Description = GetData("Description", ticket3.Description);
@@ -81,7 +84,7 @@ namespace Ticketing.Client
                         ticket3.Requestor = GetData("Requestor", ticket3.Requestor);
                         ticket3.State = GetData("Stato", ticket3.State);
 
-                        var editResult = dataService.Edit(ticket3);
+                        var editResult = dataService.Update(ticket3);
                         Console.WriteLine("Operation" + (editResult ? "Completed" : "Failed"));
                         break;
                    
