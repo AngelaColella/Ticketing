@@ -18,6 +18,7 @@ namespace Ticketing.Core.Model
         // Aggiungo una Foreign Key
         public int TicketId { get; set; }
 
+        // CONCURRENCY MANAGEMENT
         public Byte[] RowVersion { get; set; }
 
         // Navigation property 

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,35 +12,106 @@ namespace Ticketing.CoreEF.Repository
 {
     public class EFTicketRepos : ITicketRepository
     {
-        private TicketContext _ctx = new TicketContext();
-
         public bool Add(Ticket item)
         {
-            throw new NotImplementedException();
+            using (var _ctx = new TicketContext())
+            {
+                if (item == null)
+                    return false;
+
+                _ctx.Tickets.Add(item);
+                _ctx.SaveChanges();
+
+                return true;
+            }
         }
 
         public bool DeleteById(int id)
         {
-            throw new NotImplementedException();
+            using (var _ctx = new TicketContext())
+            {
+                if (id <= 0)
+                    return false;
+
+                var ticket = _ctx.Tickets.Find(id);
+
+                if (ticket != null)
+                {
+                    _ctx.Tickets.Remove(ticket);
+                    _ctx.SaveChanges();
+                }
+
+                return true;
+            }
         }
 
         public IEnumerable<Ticket> Get(Func<Ticket, bool> filter = null)
         {
-            if (filter != null)     // dove filter è una Func
-                return _ctx.Tickets
-                    .Where(filter);
+            using (var _ctx = new TicketContext())
+            {
+                if (filter != null)
+                    return _ctx.Tickets
+                        .Include(t => t.Notes)
+                        .Where(filter).ToList();
 
-            return _ctx.Tickets;
+                return _ctx.Tickets
+                    .Include(t => t.Notes)
+                    .ToList();
+            }
         }
 
         public Ticket GetByID(int id)
         {
-            throw new NotImplementedException();
+            using (var _ctx = new TicketContext())
+            {
+                if (id <= 0)
+                    return null;
+
+                return _ctx.Tickets
+                    .Include(t => t.Notes)
+                    .Where(t => t.Id == id)
+                    .SingleOrDefault(); // ritorna un singolo Ticket, se Ticket non è nullo, altrimenti ritorna il valore di default
+
+            }
+        }
+
+        public Ticket GetTicketByTitle(string title)
+        {
+            using (var _ctx = new TicketContext())
+            {
+                return _ctx.Tickets
+                    .Include(t => t.Notes)
+                    .Where(t => t.Title == title)
+                    .SingleOrDefault();
+            }
         }
 
         public bool Update(Ticket item)
         {
-            throw new NotImplementedException();
+            using (var _ctx = new TicketContext())
+            {
+                bool saved = false;
+                do
+                {
+                    try
+                    {
+                        _ctx.Entry<Ticket>(item).State = EntityState.Modified;
+                        _ctx.SaveChanges();
+
+                        saved = true;
+                    }
+                    catch (DbUpdateConcurrencyException ex)
+                    {
+                        foreach (var entity in ex.Entries)
+                        {
+                            var dbValues = entity.GetDatabaseValues();
+                            entity.OriginalValues.SetValues(dbValues);
+                        }
+                    }
+                } while (!saved);
+
+                return true;
+            }
         }
     }
 }

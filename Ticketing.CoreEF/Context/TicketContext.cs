@@ -15,13 +15,11 @@ namespace Ticketing.CoreEF.Context
     public sealed class TicketContext : DbContext
     {
         public DbSet<Ticket> Tickets { get; set; }
-        // N.B. anche se la classe è public, ciò che c'è dentro è private se non si specifica altirmenti 
         public DbSet<Note> Notes { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionBuilder)
         {
             string connString = Config.GetConnectionString("TicketDb");
-            // non serve un'istanza della classe Config perchè stiamo usando metodi statici. 
 
             optionBuilder.UseLazyLoadingProxies(); // Lazy Loading
             optionBuilder.UseSqlServer(connString);       

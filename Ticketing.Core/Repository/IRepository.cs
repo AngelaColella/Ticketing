@@ -9,7 +9,7 @@ namespace Ticketing.Core.Repository
     {
         IEnumerable<T> Get(Func<T, bool> filter = null);
         // repository.Get(t => t.Name == "Roberto")
-        // il bool è il risultato della comparazione tra t.Name == "Robero"
+        // il bool è il risultato della comparazione tra t.Name == "Roberto"
         // se il filter è null, cioè se scrivo Get e basta, mi restituisce tutta la lista
         
         T GetByID(int id);

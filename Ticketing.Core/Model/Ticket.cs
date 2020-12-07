@@ -13,8 +13,8 @@ namespace Ticketing.Core.Model
         //{
         //    Notes = new List<Note>();
         //}
-        //[Key]
 
+        //[Key]
         public int Id { get; set; } // per rispettare la convenzione della chiave primaria avrei potuto scrivere anche TicketId, ID, TicketID
 
         public DateTime IssueDate { get; set; }

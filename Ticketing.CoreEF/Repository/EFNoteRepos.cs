@@ -1,9 +1,12 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using Ticketing.Core;
 using Ticketing.Core.Model;
 using Ticketing.Core.Repository;
+using Ticketing.CoreEF.Context;
 
 namespace Ticketing.CoreEF.Repository
 {
@@ -11,27 +14,96 @@ namespace Ticketing.CoreEF.Repository
     {
         public bool Add(Note item)
         {
-            throw new NotImplementedException();
+            using (var _ctx = new TicketContext())
+            {
+                if (item == null)
+                    return false;
+
+                var ticket = _ctx.Tickets
+                    .Include(t => t.Notes)
+                    .Where(t => t.Id == item.TicketId)
+                    .SingleOrDefault();
+
+                if (ticket != null)
+                {
+                    ticket.Notes.Add(item);
+                    _ctx.SaveChanges();
+                }
+
+
+                return true;
+            }
         }
 
         public bool DeleteById(int id)
         {
-            throw new NotImplementedException();
+            using (var _ctx = new TicketContext())
+            {
+                if (id <= 0)
+                    return false;
+
+                var note = _ctx.Notes.Find(id);
+
+                if (note != null)
+                {
+                    _ctx.Notes.Remove(note);
+                    _ctx.SaveChanges();
+                }
+
+                return true;
+            }
         }
 
         public IEnumerable<Note> Get(Func<Note, bool> filter = null)
         {
-            throw new NotImplementedException();
+            using (var _ctx = new TicketContext())
+            {
+                if (filter != null)
+                    return _ctx.Notes
+                        .Where(filter);
+
+                return _ctx.Notes;
+            }
         }
 
         public Note GetByID(int id)
         {
-            throw new NotImplementedException();
+            using (var _ctx = new TicketContext())
+            {
+                if (id <= 0)
+                    return null;
+
+                return _ctx.Notes.Find(id);
+
+            }
         }
 
         public bool Update(Note item)
         {
-            throw new NotImplementedException();
+            using (var _ctx = new TicketContext())
+            {
+                bool saved = false;
+                do
+                {
+                    try
+                    {
+                        _ctx.Entry<Note>(item).State = EntityState.Modified;
+                        _ctx.SaveChanges();
+
+                        saved = true;
+                    }
+                    catch (DbUpdateConcurrencyException ex)
+                    {
+                        foreach (var entity in ex.Entries)
+                        {
+                            var dbValues = entity.GetDatabaseValues();
+                            entity.OriginalValues.SetValues(dbValues);
+                        }
+                    }
+                } while (!saved);
+
+                return true;
+            }
         }
     }
 }

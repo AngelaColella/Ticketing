@@ -1,5 +1,6 @@
 ﻿using System;
-using Ticketing.Client.Model;
+using Ticketing.Core;
+using Ticketing.Core.Model;
 
 namespace Ticketing.Client
 {
@@ -14,7 +15,7 @@ namespace Ticketing.Client
 
             do
             {
-                Console.WriteLine("Insert a command: \n");
+                Console.WriteLine("Insert a command:");
                 string command = Console.ReadLine();
 
                 switch (command)
@@ -22,6 +23,14 @@ namespace Ticketing.Client
                     case "q":
                         quit = true;
                         break;
+
+                    case "h":
+                        Console.WriteLine("Help");
+                        Console.WriteLine("q: quit | a: add ticket");
+                        Console.WriteLine("n: add note | l: list ticket");
+                        Console.WriteLine("e: edit ticket");
+                        break;
+
                     case "a": // ADD TICKET
                         Ticket ticket = new Ticket();
                         ticket.Title = GetData("Title");
@@ -49,25 +58,17 @@ namespace Ticketing.Client
                         var noteResult = dataService.AddNote(newNote);
                         Console.WriteLine("Operation" + (noteResult ? "Completed" : "Failed"));
                         break;
+
                     case "l": // LIST
-                        Console.WriteLine("-- TICKET LIST --");
                         foreach (var t in dataService.List())
                         {
-                            Console.WriteLine($"{t.Id} - {t.Title}");
-                            
-                            foreach (var n in t.Notes)
-                            {
-                                Console.WriteLine($"{n.Comments}");
-                            }
-                            // il comportamento di default di Entity Framework è non popolare le navigation property, a meno che non sia esplicitato. Ciò è al fine di limitare il traffico di dati
-                            // quindi con questo foreach non vengono letti i commenti
+                            Console.WriteLine($"[{t.Id}] {t.Title}");
+                            if (t.Notes != null)
+                                foreach (var n in t.Notes)
+                                    Console.WriteLine($"\t{n.Comments}");
                         }
                         break;
-                    case "x":
-                        //var ticketId2 = GetData("");
-                        //var ticket2 = dataService.GetTicketByIDviaSTP();
-                        //int.TryParse(ticketId2, out int tId2);
-                        break;
+
                     case "e": // EDIT
                         var ticketId3 = GetData("Ticket ID");
                         int.TryParse(ticketId3, out int tId3);
@@ -83,8 +84,7 @@ namespace Ticketing.Client
                         var editResult = dataService.Edit(ticket3);
                         Console.WriteLine("Operation" + (editResult ? "Completed" : "Failed"));
                         break;
-                    case "d": // DELETE
-                        break;
+                   
                     default:
                         Console.WriteLine("Unknown command");
                         break;
